@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
+import { GraphQLModule } from '@nestjs/graphql';
 
 @Module({
   imports: [
@@ -17,9 +18,12 @@ import { UserModule } from './user/user.module';
       synchronize: true,
       autoLoadEntities: true,
     }),
+    GraphQLModule.forRoot({
+      autoSchemaFile: 'schema.graphql',
+    }),
     UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}
