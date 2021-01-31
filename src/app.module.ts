@@ -4,17 +4,20 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { GraphQLModule } from '@nestjs/graphql';
+import { SeasonModule } from './season/season.module';
+import { RaceModule } from './race/race.module';
+import { StandingsModule } from './standings/standings.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DB_HOST,
-      port: 15432,
+      port: parseInt(process.env.DB_PORT),
       username: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: ['dist/**/*.entity{.ts,.js}'],
+      entities: ['dist/**/*.entity{.ts}'],
       synchronize: true,
       autoLoadEntities: true,
     }),
@@ -22,6 +25,9 @@ import { GraphQLModule } from '@nestjs/graphql';
       autoSchemaFile: 'schema.graphql',
     }),
     UserModule,
+    SeasonModule,
+    RaceModule,
+    StandingsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

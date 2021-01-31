@@ -4,7 +4,6 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  Generated,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -13,7 +12,6 @@ import {
 @ObjectType()
 export class User {
   @PrimaryGeneratedColumn()
-  @Generated('uuid')
   @Field(() => ID)
   id!: number;
 
