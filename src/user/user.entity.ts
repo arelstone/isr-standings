@@ -16,12 +16,11 @@ export class User {
   id!: number;
 
   @Column()
-  @Field({ description: 'The name of the user' })
-  email!: string;
+  @Field({ description: 'The username' })
+  username!: string;
 
   @Column()
-  @Field({ description: 'The email of the user' })
-  name!: string;
+  password!: string;
 
   @CreateDateColumn()
   @Field({ description: 'The date that the user registered the account' })

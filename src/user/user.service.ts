@@ -6,11 +6,11 @@ import { User } from './user.entity';
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(User) private readonly usersRepository: Repository<User>,
+    @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) {}
 
   find = async (id: string): Promise<User> => {
-    const user = this.usersRepository.findOne({ where: { id } });
+    const user = this.userRepository.findOne({ where: { id } });
 
     if (!user) {
       throw new NotFoundException();
@@ -19,8 +19,18 @@ export class UserService {
     return user;
   };
 
+  async findByUsername(username: string): Promise<User> {
+    const user = this.userRepository.findOne({ where: { username } });
+
+    if (!user) {
+      throw new NotFoundException();
+    }
+
+    return user;
+  }
+
   store = async (input: Partial<User>): Promise<User> => {
-    const user = await this.usersRepository.save(input);
+    const user = await this.userRepository.save(input);
     if (!user) {
       throw new Error();
     }

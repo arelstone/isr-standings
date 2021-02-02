@@ -5,11 +5,8 @@
 type User {
   id: ID!
 
-  """The name of the user"""
-  email: String!
-
-  """The email of the user"""
-  name: String!
+  """The username"""
+  username: String!
 
   """The date that the user registered the account"""
   createdAt: DateTime!
@@ -93,16 +90,11 @@ type Query {
     """The ID of the season"""
     id: String!
   ): Season!
+  login(password: String!, username: String!): String!
 }
 
 type Mutation {
-  createUser(input: CreateUserInput!): User!
   createSeason(input: CreateSeasonInput!): Season!
-}
-
-input CreateUserInput {
-  name: String!
-  email: String!
 }
 
 input CreateSeasonInput {

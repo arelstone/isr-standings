@@ -15,10 +15,6 @@ import { CreateSeasonInput } from './create-season.input';
 import { Season } from './season.entity';
 import { SeasonService } from './season.service';
 
-type SeasonalStandings = {
-  username: User['name'];
-  points: number;
-};
 @Resolver(Season)
 export class SeasonResolver {
   constructor(
