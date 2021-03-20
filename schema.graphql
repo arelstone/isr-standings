@@ -4,77 +4,40 @@
 
 type Season {
   id: ID!
-
-  """Name of the season"""
   name: String!
-
-  """Description of the season"""
   description: String!
-
-  """The date that the season was created"""
-  createdAt: DateTime!
-
-  """The date that the season was updated"""
-  updatedAt: DateTime!
-
-  """The date that the season was removed"""
-  deletedAt: DateTime
+  game: String!
   races: [Race!]!
 }
 
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
-type Standings {
+type Track {
   id: ID!
-
-  """The username"""
-  username: String!
-
-  """Number of points that the user got in the race"""
-  points: Float!
-
-  """The date that the entity was created"""
-  createdAt: DateTime!
-
-  """The date that the entity was updated"""
-  updatedAt: DateTime!
-
-  """The date that the entity was updated deleted"""
-  deletedAt: DateTime
+  name: String!
+  game: String!
+  country: String!
 }
 
 type Race {
   id: ID!
-
-  """The title of the race"""
-  title: String!
-
-  """The date that the entity was created"""
-  createdAt: DateTime!
-
-  """The date that the entity was updated"""
-  updatedAt: DateTime!
-
-  """The date that the entity was updated deleted"""
-  deletedAt: DateTime
-  standings: [Standings!]!
 }
 
 type Query {
-  season(
-    """The ID of the season"""
-    id: String!
-  ): Season!
+  season(id: String!): Season!
 }
 
 type Mutation {
   createSeason(input: CreateSeasonInput!): Season!
+  createTrack(input: CreateTrackInput!): Track!
 }
 
 input CreateSeasonInput {
   name: String!
   description: String!
+  numberOfRaces: Float!
+  game: String!
+}
+
+input CreateTrackInput {
+  name: String!
+  game: String!
 }

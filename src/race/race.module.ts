@@ -1,13 +1,11 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Standings } from 'src/standings/standings.entity';
-import { StandingsService } from 'src/standings/standings.service';
-import { Race } from './race.entity';
-import { RaceResolver } from './race.resolver';
 import { RaceService } from './race.service';
+import { RaceResolver } from './race.resolver';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Race } from './race.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Race, Standings])],
-  providers: [RaceService, RaceResolver, StandingsService],
+  providers: [RaceService, RaceResolver],
+  imports: [TypeOrmModule.forFeature([Race])],
 })
 export class RaceModule {}

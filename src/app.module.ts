@@ -4,8 +4,8 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
 import { SeasonModule } from './season/season.module';
+import { TrackModule } from './track/track.module';
 import { RaceModule } from './race/race.module';
-import { StandingsModule } from './standings/standings.module';
 
 @Module({
   imports: [
@@ -24,8 +24,8 @@ import { StandingsModule } from './standings/standings.module';
       autoSchemaFile: 'schema.graphql',
     }),
     SeasonModule,
+    TrackModule,
     RaceModule,
-    StandingsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,16 +1,30 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Season } from 'src/season/season.entity';
+import { Track } from 'src/track/track.entity';
 import { Repository } from 'typeorm';
 import { Race } from './race.entity';
+
+type RaceRepository = Repository<Race>;
 
 @Injectable()
 export class RaceService {
   constructor(
-    @InjectRepository(Race) private readonly raceRepository: Repository<Race>,
+    @InjectRepository(Race)
+    private readonly raceRepository: RaceRepository,
   ) {}
 
-  async findAllBySeason(season: Season): Promise<Race[]> {
+  async findBySeason(season: Season): Promise<Race[]> {
     return await this.raceRepository.find({ where: { season } });
   }
+
+  async create(input: CreateRaceDto) {
+    console.log(input);
+
+    // return await this.raceRepository.save({ track, season });
+  }
+}
+class CreateRaceDto {
+  track!: Track;
+  season!: Season;
 }

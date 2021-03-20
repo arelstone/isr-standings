@@ -1,15 +1,14 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { race } from 'rxjs';
 import { Season } from 'src/season/season.entity';
-import { Standings } from 'src/standings/standings.entity';
+import { Track } from 'src/track/track.entity';
 import {
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
@@ -19,34 +18,9 @@ export class Race {
   @Field(() => ID)
   id!: string;
 
-  @Column()
-  @Field({ description: 'The title of the race' })
-  title!: string;
-
-  @ManyToOne((type) => Season, (season) => season.races, {
-    onDelete: 'CASCADE',
-    nullable: false,
-  })
+  @ManyToOne((type) => Season, (season) => season.races)
   season: Promise<Season>;
 
-  @OneToMany(() => Standings, (standings) => standings.race, {
-    onDelete: 'CASCADE',
-    cascade: true,
-  })
-  standings: Promise<Standings[]>;
-
-  @CreateDateColumn()
-  @Field({ description: 'The date that the entity was created' })
-  createdAt!: Date;
-
-  @UpdateDateColumn()
-  @Field({ description: 'The date that the entity was updated' })
-  updatedAt!: Date;
-
-  @DeleteDateColumn()
-  @Field({
-    nullable: true,
-    description: 'The date that the entity was updated deleted',
-  })
-  deletedAt?: Date;
+  @ManyToOne((type) => Track, (track) => track.races)
+  track: Promise<Track>;
 }

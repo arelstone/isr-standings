@@ -8,8 +8,6 @@ import {
 } from '@nestjs/graphql';
 import { Race } from 'src/race/race.entity';
 import { RaceService } from 'src/race/race.service';
-import { StandingsService } from 'src/standings/standings.service';
-import { getManager } from 'typeorm';
 import { CreateSeasonInput } from './create-season.input';
 import { Season } from './season.entity';
 import { SeasonService } from './season.service';
@@ -19,17 +17,11 @@ export class SeasonResolver {
   constructor(
     private readonly seasonService: SeasonService,
     private readonly raceService: RaceService,
-    private readonly standingsService: StandingsService,
   ) {}
 
   @Query(() => Season)
   async season(
-    @Args({
-      name: 'id',
-      type: () => String,
-      nullable: false,
-      description: 'The ID of the season',
-    })
+    @Args({ name: 'id', type: () => String })
     id: string,
   ) {
     return this.seasonService.find(id);
@@ -40,8 +32,8 @@ export class SeasonResolver {
     return await this.seasonService.create(input);
   }
 
-  @ResolveField((returns) => [Race])
-  async races(@Parent() season) {
-    return this.raceService.findAllBySeason(season);
+  @ResolveField('races', (returns) => [Race])
+  async races(@Parent() season: Season) {
+    return this.raceService.findBySeason(season);
   }
 }

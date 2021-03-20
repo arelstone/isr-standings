@@ -1,5 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { RaceService } from 'src/race/race.service';
+import { TrackService } from 'src/track/track.service';
 import { Repository } from 'typeorm';
 import { CreateSeasonInput } from './create-season.input';
 import { Season } from './season.entity';
@@ -11,6 +13,8 @@ export class SeasonService {
   constructor(
     @InjectRepository(Season)
     private readonly seasonRepository: SeasonRepository,
+    private readonly trackService: TrackService,
+    private readonly raceService: RaceService,
   ) {}
 
   async find(id: string): Promise<Season> {
@@ -24,16 +28,11 @@ export class SeasonService {
   }
 
   async create(input: CreateSeasonInput): Promise<Season> {
-    return this.seasonRepository.save(input);
+    const season = await this.seasonRepository.save({ ...input });
+    const tracks = await this.trackService.randomizeTracksForSeason(input);
+    const races = tracks.map(
+      async (track) => await this.raceService.create({ track, season }),
+    );
+    return season;
   }
-
-  //   async remove(id: string): Promise<boolean> {
-  //     const season = this.seasonRepository.findOne({ where: { id } });
-
-  //     if (!season) {
-  //       throw new NotFoundException();
-  //     }
-
-  //     return this.seasonRepository.remove(season);
-  //   }
 }
