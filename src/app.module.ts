@@ -2,12 +2,10 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserModule } from './user/user.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { SeasonModule } from './season/season.module';
 import { RaceModule } from './race/race.module';
 import { StandingsModule } from './standings/standings.module';
-import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -25,11 +23,9 @@ import { AuthModule } from './auth/auth.module';
     GraphQLModule.forRoot({
       autoSchemaFile: 'schema.graphql',
     }),
-    UserModule,
     SeasonModule,
     RaceModule,
     StandingsModule,
-    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

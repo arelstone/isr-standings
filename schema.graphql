@@ -2,27 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type User {
-  id: ID!
-
-  """The username"""
-  username: String!
-
-  """The date that the user registered the account"""
-  createdAt: DateTime!
-
-  """The date that the user last updated their account"""
-  updatedAt: DateTime!
-
-  """The date that the user deleted their account"""
-  deletedAt: DateTime
-}
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
 type Season {
   id: ID!
 
@@ -41,8 +20,12 @@ type Season {
   """The date that the season was removed"""
   deletedAt: DateTime
   races: [Race!]!
-  standings: String!
 }
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
 
 type Standings {
   id: ID!
@@ -81,16 +64,10 @@ type Race {
 }
 
 type Query {
-  hello: String!
-  user(
-    """The ID of the user"""
-    id: String!
-  ): User!
   season(
     """The ID of the season"""
     id: String!
   ): Season!
-  login(password: String!, username: String!): String!
 }
 
 type Mutation {
