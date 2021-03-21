@@ -1,7 +1,15 @@
-import { Field, ID, ObjectType, ResolveField } from '@nestjs/graphql';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { GameEnum } from 'src/enums/GameEnum';
 import { Race } from 'src/race/race.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 @ObjectType()
@@ -14,13 +22,21 @@ export class Season {
   @Field()
   name!: string;
 
-  @Column()
-  @Field()
-  description!: string;
-
   @Column({ type: 'enum', enum: GameEnum, default: GameEnum.GT_SPORT })
   @Field()
   game!: GameEnum;
+
+  @CreateDateColumn()
+  @Field()
+  createdAt!: Date;
+
+  @UpdateDateColumn()
+  @Field()
+  updatedAt!: Date;
+
+  @Field({ nullable: true })
+  @DeleteDateColumn()
+  deletedAt?: Date;
 
   @OneToMany(() => Race, (race) => race.season)
   races: Promise<Race[]>;

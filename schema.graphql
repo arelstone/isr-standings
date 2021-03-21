@@ -5,16 +5,28 @@
 type Season {
   id: ID!
   name: String!
-  description: String!
   game: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime
   races: [Race!]!
 }
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
 
 type Track {
   id: ID!
   name: String!
+  description: String
   game: String!
-  country: String!
+  country: String
+  dlc: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime
 }
 
 type Race {
@@ -22,12 +34,18 @@ type Race {
 }
 
 type Query {
+  seasons(game: String): [Season!]!
   season(id: String!): Season!
+  tracks(game: String!): [Track!]!
 }
 
 type Mutation {
   createSeason(input: CreateSeasonInput!): Season!
+  updateSeason(input: UpdateSeasonInput!, id: String!): Season!
+  deleteSeason(id: String!): Season!
   createTrack(input: CreateTrackInput!): Track!
+  deleteTrack(id: String!): Track!
+  updateTrack(input: UpdateTrackInput!, id: String!): Track!
 }
 
 input CreateSeasonInput {
@@ -37,7 +55,23 @@ input CreateSeasonInput {
   game: String!
 }
 
+input UpdateSeasonInput {
+  name: String
+  description: String
+}
+
 input CreateTrackInput {
   name: String!
-  game: String!
+  description: String
+  game: String = "gts"
+  country: String
+  dlc: Boolean = false
+}
+
+input UpdateTrackInput {
+  name: String
+  description: String
+  game: String = "gts"
+  country: String
+  dlc: Boolean = false
 }
