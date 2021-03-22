@@ -6,6 +6,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { SeasonModule } from './season/season.module';
 import { TrackModule } from './track/track.module';
 import { RaceModule } from './race/race.module';
+import { ResultModule } from './result/result.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { RaceModule } from './race/race.module';
     SeasonModule,
     TrackModule,
     RaceModule,
+    ResultModule,
   ],
   controllers: [AppController],
   providers: [AppService],

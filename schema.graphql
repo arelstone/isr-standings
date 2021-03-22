@@ -2,6 +2,16 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Result {
+  id: ID!
+  player: String!
+  points: Float!
+  polePosition: Boolean!
+  fastestLap: Boolean!
+  bestTime: String
+  totalTime: String
+}
+
 type Season {
   id: ID!
   name: String!
@@ -33,13 +43,13 @@ type Race {
   id: ID!
   track: Track!
   season: Season!
+  results: [Result!]!
 }
 
 type Query {
   seasons(game: String): [Season!]!
   season(id: String!): Season!
   tracks(game: String!): [Track!]!
-  race(id: String!): Race!
 }
 
 type Mutation {

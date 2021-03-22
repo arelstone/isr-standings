@@ -1,7 +1,14 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Result } from 'src/result/result.entity';
 import { Season } from 'src/season/season.entity';
 import { Track } from 'src/track/track.entity';
-import { Entity, ManyToOne, PrimaryGeneratedColumn, Index } from 'typeorm';
+import {
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  Index,
+  OneToMany,
+} from 'typeorm';
 
 @Entity()
 @ObjectType()
@@ -18,4 +25,7 @@ export class Race {
   @Index()
   @ManyToOne(() => Season, (season) => season.races)
   season: Promise<Season>;
+
+  @OneToMany(() => Result, (result) => result.race)
+  results!: Promise<Result[]>;
 }
