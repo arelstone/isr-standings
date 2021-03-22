@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Season } from 'src/season/season.entity';
-import { Track } from 'src/track/track.entity';
 import { Repository } from 'typeorm';
 import { Race } from './race.entity';
 
@@ -14,17 +13,11 @@ export class RaceService {
     private readonly raceRepository: RaceRepository,
   ) {}
 
+  async find(race: Race): Promise<Race> {
+    return await this.raceRepository.findOne({ where: { id: race.id } });
+  }
+
   async findBySeason(season: Season): Promise<Race[]> {
     return await this.raceRepository.find({ where: { season } });
   }
-
-  async create(input: CreateRaceDto) {
-    console.log(input);
-
-    // return await this.raceRepository.save({ track, season });
-  }
-}
-class CreateRaceDto {
-  track!: Track;
-  season!: Season;
 }

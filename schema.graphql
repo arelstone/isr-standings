@@ -31,12 +31,15 @@ type Track {
 
 type Race {
   id: ID!
+  track: Track!
+  season: Season!
 }
 
 type Query {
   seasons(game: String): [Season!]!
   season(id: String!): Season!
   tracks(game: String!): [Track!]!
+  race(id: String!): Race!
 }
 
 type Mutation {

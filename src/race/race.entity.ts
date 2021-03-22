@@ -1,26 +1,21 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { race } from 'rxjs';
 import { Season } from 'src/season/season.entity';
 import { Track } from 'src/track/track.entity';
-import {
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToMany,
-  OneToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Entity, ManyToOne, PrimaryGeneratedColumn, Index } from 'typeorm';
 
 @Entity()
 @ObjectType()
+@Index(['track', 'season'], { unique: true })
 export class Race {
   @PrimaryGeneratedColumn()
   @Field(() => ID)
   id!: string;
 
-  @ManyToOne((type) => Season, (season) => season.races)
-  season: Promise<Season>;
-
-  @ManyToOne((type) => Track, (track) => track.races)
+  @Index()
+  @ManyToOne(() => Track, (track) => track.races, { eager: true })
   track: Promise<Track>;
+
+  @Index()
+  @ManyToOne(() => Season, (season) => season.races)
+  season: Promise<Season>;
 }

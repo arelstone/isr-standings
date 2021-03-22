@@ -45,10 +45,10 @@ export class SeasonService {
   // TODO: Finish this
   async create(input: CreateSeasonInput): Promise<Season> {
     const season = await this.seasonRepository.save({ ...input });
-    const tracks = await this.trackService.randomizeTracksForSeason(input);
-    const races = tracks.map(
-      async (track) => await this.raceService.create({ track, season }),
-    );
+    // const tracks = await this.trackService.randomizeTracksForSeason(input);
+    // const races = tracks.map(
+    //   async (track) => await this.raceService.create({ track, season }),
+    // );
     return season;
   }
 
