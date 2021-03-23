@@ -10,6 +10,7 @@ import {
 
 @Entity()
 @ObjectType()
+@Index(['player', 'race'], { unique: true })
 export class Result {
   @PrimaryGeneratedColumn()
   @Field(() => ID)
@@ -19,9 +20,12 @@ export class Result {
   @Field()
   player!: string;
 
-  @Column('varchar')
+  @Column('integer')
   @Field()
   points!: number;
+
+  @ManyToOne(() => Race, (race) => race.results)
+  race!: Promise<Race>;
 
   @Column('boolean', { default: false })
   @Field({ defaultValue: false })
@@ -38,8 +42,4 @@ export class Result {
   @Column({ nullable: true })
   @Field({ nullable: true })
   totalTime: string;
-
-  @Index()
-  @ManyToOne(() => Race, (race) => race.results)
-  race!: Promise<Race>;
 }

@@ -59,6 +59,7 @@ type Mutation {
   createTrack(input: CreateTrackInput!): Track!
   deleteTrack(id: String!): Track!
   updateTrack(input: UpdateTrackInput!, id: String!): Track!
+  createResults(input: CreateResultInput!, raceId: String!): Race!
 }
 
 input CreateSeasonInput {
@@ -87,4 +88,13 @@ input UpdateTrackInput {
   game: String = "gts"
   country: String
   dlc: Boolean = false
+}
+
+input CreateResultInput {
+  player: String!
+  points: Float!
+  polePosition: Boolean = false
+  fastestLap: Boolean = false
+  bestTime: String
+  totalTime: String
 }

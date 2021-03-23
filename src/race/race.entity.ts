@@ -19,7 +19,7 @@ export class Race {
   id!: string;
 
   @Index()
-  @ManyToOne(() => Track, (track) => track.races, { eager: true })
+  @ManyToOne(() => Track, (track) => track.races /*, { eager: true }*/)
   track: Promise<Track>;
 
   @Index()
