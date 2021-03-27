@@ -17,7 +17,7 @@ import {
 @Entity()
 @ObjectType()
 export class Race {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   @Field(() => ID)
   id!: string;
 

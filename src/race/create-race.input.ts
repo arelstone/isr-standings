@@ -15,6 +15,12 @@ export class CreateRaceInput {
   @Field()
   qualifyingDuration!: number;
 
+  @Field()
+  seasonId!: string;
+
+  @Field()
+  trackId!: string;
+
   @Field({ defaultValue: CarCategoryEnum.GT3 })
   carCatrgory!: CarCategoryEnum;
 }

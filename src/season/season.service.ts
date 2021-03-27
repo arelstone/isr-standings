@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { GameEnum } from 'src/enums/GameEnum';
 import { RaceService } from 'src/race/race.service';
 import { TrackService } from 'src/track/track.service';
-import { patch } from 'src/utils/dbUtils';
+import { patch } from 'src/utils/databaseUtils';
 import { Repository } from 'typeorm';
 import { CreateSeasonInput } from './create-season.input';
 import { Season } from './season.entity';
@@ -52,17 +52,11 @@ export class SeasonService {
     return season;
   }
 
-  async update(id: string, input: UpdateSeasonInput): Promise<Season> {
-    const season = await this.seasonRepository.findOne({ where: { id } });
-
-    if (!season) {
-      throw new NotFoundException();
-    }
-
+  async update(season: Season, input: UpdateSeasonInput): Promise<Season> {
     return await this.seasonRepository.save(patch(season, input));
   }
 
-  async remove(id: string): Promise<Season> {
+  async remove(id: string): Promise<string> {
     const season = await this.seasonRepository.findOne({ where: { id } });
 
     if (!season) {
@@ -71,9 +65,6 @@ export class SeasonService {
 
     await this.seasonRepository.softDelete(id);
 
-    return await this.seasonRepository.findOne({
-      where: { id },
-      withDeleted: true,
-    });
+    return 'Deleted';
   }
 }

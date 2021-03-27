@@ -17,9 +17,9 @@ export class ResultResolver {
     @Args('raceId') raceId: string,
     @Args('input') input: CreateResultInput,
   ): Promise<Race> {
-    const race = await this.raceService.find({ id: raceId } as Race);
+    const race = await this.raceService.find(raceId);
     await this.resultService.create({ race, ...input });
 
-    return await this.raceService.find(race);
+    return await this.raceService.find(raceId);
   }
 }

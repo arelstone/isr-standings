@@ -43,11 +43,12 @@ export class SeasonResolver {
     @Args('id') id: string,
     @Args('input') input: UpdateSeasonInput,
   ): Promise<Season> {
-    return await this.seasonService.update(id, input);
+    const season = await this.seasonService.find(id);
+    return await this.seasonService.update(season, input);
   }
 
   @Mutation(() => Season)
-  async deleteSeason(@Args('id') id: string): Promise<Season> {
+  async deleteSeason(@Args('id') id: string): Promise<string> {
     return await this.seasonService.remove(id);
   }
 

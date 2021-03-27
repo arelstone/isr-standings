@@ -12,7 +12,7 @@ import {
 @Entity()
 @ObjectType()
 export class Calendar {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   @Field(() => ID)
   id!: string;
 

@@ -5,7 +5,6 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
-import { GameEnum } from 'src/enums/GameEnum';
 import { Result } from 'src/result/result.entity';
 import { Season } from 'src/season/season.entity';
 import { SeasonService } from 'src/season/season.service';
@@ -14,6 +13,7 @@ import { TrackService } from 'src/track/track.service';
 import { CreateRaceInput } from './create-race.input';
 import { Race } from './race.entity';
 import { RaceService } from './race.service';
+import { UpdateRaceInput } from './update-race.input';
 
 @Resolver(Race)
 export class RaceResolver {
@@ -24,15 +24,20 @@ export class RaceResolver {
   ) {}
 
   @Mutation(() => Race)
-  async createRace(
-    @Args('seasonId') seasonId: string,
-    @Args('trackId') trackId: string,
-    @Args('input') input: CreateRaceInput,
-  ): Promise<Race> {
-    const season = await this.seasonService.find(seasonId);
-    const track = await this.trackService.find(trackId);
+  async createRace(@Args('input') input: CreateRaceInput): Promise<Race> {
+    const season = await this.seasonService.find(input.seasonId);
+    const track = await this.trackService.find(input.trackId);
 
     return await this.raceService.create({ ...input, season, track });
+  }
+
+  @Mutation(() => Race)
+  async updateRace(
+    id: string,
+    @Args('input') input: UpdateRaceInput,
+  ): Promise<Race> {
+    const race = await this.raceService.find(id);
+    return await this.raceService.update(race, input);
   }
 
   @ResolveField(() => Track)

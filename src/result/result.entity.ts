@@ -6,13 +6,16 @@ import {
   PrimaryGeneratedColumn,
   Index,
   Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
 @ObjectType()
 @Index(['player', 'race'], { unique: true })
 export class Result {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   @Field(() => ID)
   id!: string;
 
@@ -42,4 +45,16 @@ export class Result {
   @Column({ nullable: true })
   @Field({ nullable: true })
   totalTime: string;
+
+  @CreateDateColumn()
+  @Field()
+  createdAt!: Date;
+
+  @UpdateDateColumn()
+  @Field()
+  updatedAt!: Date;
+
+  @Field({ nullable: true })
+  @DeleteDateColumn()
+  deletedAt?: Date;
 }

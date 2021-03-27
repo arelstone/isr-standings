@@ -1,13 +1,13 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { ResultService } from './result.service';
 import { ResultResolver } from './result.resolver';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Result } from './result.entity';
-import { Race } from 'src/race/race.entity';
-import { RaceService } from 'src/race/race.service';
+import { RaceModule } from 'src/race/race.module';
 
 @Module({
-  providers: [ResultService, ResultResolver, RaceService],
-  imports: [TypeOrmModule.forFeature([Race, Result])],
+  providers: [ResultService, ResultResolver],
+  imports: [TypeOrmModule.forFeature([Result]), forwardRef(() => RaceModule)],
+  exports: [ResultService],
 })
 export class ResultModule {}

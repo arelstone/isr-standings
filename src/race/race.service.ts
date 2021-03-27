@@ -1,9 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Season } from 'src/season/season.entity';
+import { patch } from 'src/utils/databaseUtils';
 import { Repository } from 'typeorm';
 import { CreateRaceDto } from './dto/create-race.dto';
 import { Race } from './race.entity';
+import { UpdateRaceInput } from './update-race.input';
 
 type RaceRepository = Repository<Race>;
 
@@ -14,8 +16,12 @@ export class RaceService {
     private readonly raceRepository: RaceRepository,
   ) {}
 
-  async find(race: Race): Promise<Race> {
-    return await this.raceRepository.findOne({ where: { id: race.id } });
+  async find(id: string): Promise<Race> {
+    return await this.raceRepository.findOne({ where: { id } });
+  }
+
+  async update(race: Race, input: UpdateRaceInput): Promise<Race> {
+    return this.raceRepository.save(patch(race, input));
   }
 
   async findBySeason(season: Season): Promise<Race[]> {
@@ -23,8 +29,6 @@ export class RaceService {
   }
 
   async create(data: CreateRaceDto): Promise<Race> {
-    console.log(data);
-
     return await this.raceRepository.save({
       carCategory: data.carCatrgory,
       description: data.description,
@@ -34,5 +38,17 @@ export class RaceService {
       // season: [data.season],
       // track: data.track,
     });
+  }
+
+  async remove(id: string): Promise<string> {
+    const race = this.raceRepository.findOne({ where: { id } });
+
+    if (!race) {
+      throw new NotFoundException();
+    }
+
+    await this.raceRepository.softDelete(id);
+
+    return 'Deleted';
   }
 }

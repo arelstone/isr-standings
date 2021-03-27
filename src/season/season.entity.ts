@@ -14,7 +14,7 @@ import {
 @Entity()
 @ObjectType()
 export class Season {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   @Field(() => ID)
   id!: string;
 
