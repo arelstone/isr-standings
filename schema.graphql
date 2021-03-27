@@ -41,15 +41,44 @@ type Track {
 
 type Race {
   id: ID!
+  description: String
+  startingAt: DateTime!
+
+  """Minutes"""
+  raceDuration: Float
+
+  """Minutes"""
+  qualifyingDuration: Float
+  carCategory: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime
   track: Track!
   season: Season!
   results: [Result!]!
+}
+
+type Calendar {
+  id: ID!
+
+  """Starting at Monday"""
+  dayOfWeek: Float!
+  host: String!
+  time: String!
+  timezone: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime
+  game: String!
+  next: String!
+  day: String!
 }
 
 type Query {
   seasons(game: String): [Season!]!
   season(id: String!): Season!
   tracks(game: String!): [Track!]!
+  calendar: [Calendar!]!
 }
 
 type Mutation {
@@ -59,7 +88,9 @@ type Mutation {
   createTrack(input: CreateTrackInput!): Track!
   deleteTrack(id: String!): Track!
   updateTrack(input: UpdateTrackInput!, id: String!): Track!
+  createRace(input: CreateRaceInput!, trackId: String!, seasonId: String!): Race!
   createResults(input: CreateResultInput!, raceId: String!): Race!
+  createCalendar(input: CreateCalendarInput!): [Calendar!]!
 }
 
 input CreateSeasonInput {
@@ -90,6 +121,14 @@ input UpdateTrackInput {
   dlc: Boolean = false
 }
 
+input CreateRaceInput {
+  description: String!
+  startingAt: DateTime = "2021-03-27T16:58:20.408Z"
+  raceDuration: Float!
+  qualifyingDuration: Float!
+  carCatrgory: String = "gt3"
+}
+
 input CreateResultInput {
   player: String!
   points: Float!
@@ -97,4 +136,12 @@ input CreateResultInput {
   fastestLap: Boolean = false
   bestTime: String
   totalTime: String
+}
+
+input CreateCalendarInput {
+  dayOfWeek: Float!
+  host: String!
+  time: String!
+  timezone: String!
+  game: String = "gts"
 }

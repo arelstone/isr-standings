@@ -17,6 +17,16 @@ export class TrackService {
     private readonly trackRepository: TrackRepository,
   ) {}
 
+  async find(id: string): Promise<Track> {
+    const track = await this.trackRepository.findOne({ where: { id } });
+
+    if (!track) {
+      throw new NotFoundException();
+    }
+
+    return track;
+  }
+
   async allByGame(game: GameEnum): Promise<Track[]> {
     return await this.trackRepository.find({ where: { game } });
   }

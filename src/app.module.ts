@@ -7,6 +7,7 @@ import { SeasonModule } from './season/season.module';
 import { TrackModule } from './track/track.module';
 import { RaceModule } from './race/race.module';
 import { ResultModule } from './result/result.module';
+import { CalendarModule } from './calendar/calendar.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { ResultModule } from './result/result.module';
     TrackModule,
     RaceModule,
     ResultModule,
+    CalendarModule,
   ],
   controllers: [AppController],
   providers: [AppService],
