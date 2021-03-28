@@ -32,7 +32,7 @@ export class SeasonService {
     return seasons;
   }
 
-  async find(id: string): Promise<Season> {
+  async find(id: number): Promise<Season> {
     const season = this.seasonRepository.findOne({ where: { id } });
 
     if (!season) {
@@ -44,19 +44,19 @@ export class SeasonService {
 
   // TODO: Finish this
   async create(input: CreateSeasonInput): Promise<Season> {
-    const season = await this.seasonRepository.save({ ...input });
+    return await this.seasonRepository.save(input);
     // const tracks = await this.trackService.randomizeTracksForSeason(input);
     // const races = tracks.map(
     //   async (track) => await this.raceService.create({ track, season }),
     // );
-    return season;
+    // return season;
   }
 
   async update(season: Season, input: UpdateSeasonInput): Promise<Season> {
     return await this.seasonRepository.save(patch(season, input));
   }
 
-  async remove(id: string): Promise<string> {
+  async remove(id: number): Promise<string> {
     const season = await this.seasonRepository.findOne({ where: { id } });
 
     if (!season) {

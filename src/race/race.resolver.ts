@@ -27,13 +27,14 @@ export class RaceResolver {
   async createRace(@Args('input') input: CreateRaceInput): Promise<Race> {
     const season = await this.seasonService.find(input.seasonId);
     const track = await this.trackService.find(input.trackId);
+    console.log([track, season]);
 
-    return await this.raceService.create({ ...input, season, track });
+    return await this.raceService.create(season, track, input);
   }
 
   @Mutation(() => Race)
   async updateRace(
-    id: string,
+    id: number,
     @Args('input') input: UpdateRaceInput,
   ): Promise<Race> {
     const race = await this.raceService.find(id);

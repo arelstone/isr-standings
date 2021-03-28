@@ -4,6 +4,7 @@ import { RaceService } from 'src/race/race.service';
 import { CreateResultInput } from './create-result.input';
 import { Result } from './result.entity';
 import { ResultService } from './result.service';
+import { UpdateResultInput } from './update-result.input';
 
 @Resolver(Result)
 export class ResultResolver {
@@ -13,13 +14,24 @@ export class ResultResolver {
   ) {}
 
   @Mutation(() => Race)
-  async createResults(
-    @Args('raceId') raceId: string,
+  async createResult(
+    @Args('raceId') raceId: number,
     @Args('input') input: CreateResultInput,
   ): Promise<Race> {
     const race = await this.raceService.find(raceId);
-    await this.resultService.create({ race, ...input });
+    await this.resultService.create(race, input);
 
     return await this.raceService.find(raceId);
+  }
+
+  @Mutation(() => Race)
+  async updateResult(
+    @Args('id') id: number,
+    @Args('input') input: UpdateResultInput,
+  ): Promise<Race> {
+    const result = await this.resultService.find(id);
+    await this.resultService.update(result, input);
+
+    return await this.raceService.find(id);
   }
 }

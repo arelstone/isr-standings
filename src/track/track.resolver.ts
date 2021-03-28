@@ -20,13 +20,13 @@ export class TrackResolver {
   }
 
   @Mutation(() => Track)
-  async deleteTrack(@Args('id') id: string): Promise<Track> {
+  async deleteTrack(@Args('id') id: number): Promise<Track> {
     return await this.trackService.remove(id);
   }
 
   @Mutation(() => Track)
   async updateTrack(
-    @Args('id') id: string,
+    @Args('id') id: number,
     @Args('input') input: UpdateTrackInput,
   ): Promise<Track> {
     return await this.trackService.update(id, input);

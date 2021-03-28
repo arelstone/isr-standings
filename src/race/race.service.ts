@@ -1,8 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Season } from 'src/season/season.entity';
+import { Track } from 'src/track/track.entity';
 import { patch } from 'src/utils/databaseUtils';
 import { Repository } from 'typeorm';
+import { CreateRaceInput } from './create-race.input';
 import { CreateRaceDto } from './dto/create-race.dto';
 import { Race } from './race.entity';
 import { UpdateRaceInput } from './update-race.input';
@@ -16,31 +18,30 @@ export class RaceService {
     private readonly raceRepository: RaceRepository,
   ) {}
 
-  async find(id: string): Promise<Race> {
+  async find(id: number): Promise<Race> {
     return await this.raceRepository.findOne({ where: { id } });
   }
 
   async update(race: Race, input: UpdateRaceInput): Promise<Race> {
-    return this.raceRepository.save(patch(race, input));
+    return await this.raceRepository.save(patch(race, input));
   }
 
   async findBySeason(season: Season): Promise<Race[]> {
-    return await this.raceRepository.find({ where: { season } });
+    const res = await this.raceRepository.find({ where: { season } });
+
+    console.log('###findBySeason', res);
+    return res;
   }
 
-  async create(data: CreateRaceDto): Promise<Race> {
-    return await this.raceRepository.save({
-      carCategory: data.carCatrgory,
-      description: data.description,
-      qualifyingDuration: data.qualifyingDuration,
-      raceDuration: data.raceDuration,
-      startingAt: data.startingAt,
-      // season: [data.season],
-      // track: data.track,
-    });
+  async create(
+    season: Season,
+    track: Track,
+    input: CreateRaceInput,
+  ): Promise<Race> {
+    return await this.raceRepository.save({ ...input, track, season });
   }
 
-  async remove(id: string): Promise<string> {
+  async remove(id: number): Promise<string> {
     const race = this.raceRepository.findOne({ where: { id } });
 
     if (!race) {

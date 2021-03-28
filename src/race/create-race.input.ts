@@ -6,7 +6,7 @@ export class CreateRaceInput {
   @Field()
   description!: string;
 
-  @Field({ defaultValue: new Date() })
+  @Field()
   startingAt!: Date;
 
   @Field()
@@ -16,10 +16,10 @@ export class CreateRaceInput {
   qualifyingDuration!: number;
 
   @Field()
-  seasonId!: string;
+  seasonId!: number;
 
   @Field()
-  trackId!: string;
+  trackId!: number;
 
   @Field({ defaultValue: CarCategoryEnum.GT3 })
   carCatrgory!: CarCategoryEnum;

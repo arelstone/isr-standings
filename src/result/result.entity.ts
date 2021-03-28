@@ -9,13 +9,14 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   UpdateDateColumn,
+  JoinTable,
 } from 'typeorm';
 
 @Entity()
 @ObjectType()
 @Index(['player', 'race'], { unique: true })
 export class Result {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn()
   @Field(() => ID)
   id!: string;
 
@@ -27,8 +28,9 @@ export class Result {
   @Field()
   points!: number;
 
-  @ManyToOne(() => Race, (race) => race.results)
-  race!: Promise<Race>;
+  // @Column({ name: 'raceId' })
+  @ManyToOne(() => Race, (race) => race.results, { cascade: true })
+  race!: Race;
 
   @Column('boolean', { default: false })
   @Field({ defaultValue: false })

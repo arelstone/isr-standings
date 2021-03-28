@@ -14,7 +14,7 @@ import {
 @Entity()
 @ObjectType()
 export class Track {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn()
   @Field(() => ID)
   id!: string;
 

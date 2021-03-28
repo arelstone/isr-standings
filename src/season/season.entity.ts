@@ -14,11 +14,11 @@ import {
 @Entity()
 @ObjectType()
 export class Season {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn()
   @Field(() => ID)
   id!: string;
 
-  @Column()
+  @Column({ unique: true })
   @Field()
   name!: string;
 
@@ -38,6 +38,6 @@ export class Season {
   @DeleteDateColumn()
   deletedAt?: Date;
 
-  @OneToMany(() => Race, (race) => race.season)
-  races: Promise<Race[]>;
+  @OneToMany(() => Race, (race) => race.season, { eager: true })
+  races: Race[];
 }

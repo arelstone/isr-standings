@@ -1,8 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateResultDTO } from 'src/race/dto/create-result.dto';
-import { Repository } from 'typeorm';
+import { CreateRaceInput } from 'src/race/create-race.input';
+import { Race } from 'src/race/race.entity';
+import { RaceService } from 'src/race/race.service';
+import { patch } from 'src/utils/databaseUtils';
+import { Connection, Repository } from 'typeorm';
+import { CreateResultInput } from './create-result.input';
 import { Result } from './result.entity';
+import { UpdateResultInput } from './update-result.input';
 
 type ResultRepository = Repository<Result>;
 @Injectable()
@@ -12,12 +17,24 @@ export class ResultService {
     private readonly resultRepository: ResultRepository,
   ) {}
 
-  async create(data: CreateResultDTO): Promise<void> {
-    // FIXME: Why doesn't it save the race when parsing it
-    // return await this.resultRepository.save(data);
+  async find(id: number): Promise<Result> {
+    const result = await this.resultRepository.findOne({ where: { id } });
+    if (!result) {
+      throw new NotFoundException();
+    }
+
+    return result;
   }
 
-  async remove(id: string): Promise<string> {
+  async create(race: Race, input: CreateResultInput): Promise<Result> {
+    return await this.resultRepository.save({ race, ...input });
+  }
+
+  async update(result: Result, input: UpdateResultInput): Promise<Result> {
+    return await this.resultRepository.save(patch(result, input));
+  }
+
+  async remove(id: number): Promise<string> {
     const result = await this.resultRepository.findOne({ where: { id } });
 
     if (!result) {

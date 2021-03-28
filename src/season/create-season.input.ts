@@ -10,8 +10,5 @@ export class CreateSeasonInput {
   description!: string;
 
   @Field()
-  numberOfRaces!: number;
-
-  @Field()
   game!: GameEnum;
 }

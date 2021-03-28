@@ -17,7 +17,7 @@ export class TrackService {
     private readonly trackRepository: TrackRepository,
   ) {}
 
-  async find(id: string): Promise<Track> {
+  async find(id: number): Promise<Track> {
     const track = await this.trackRepository.findOne({ where: { id } });
 
     if (!track) {
@@ -35,13 +35,13 @@ export class TrackService {
     return this.trackRepository.save(input);
   }
 
-  async update(id: string, input: UpdateTrackInput): Promise<Track> {
+  async update(id: number, input: UpdateTrackInput): Promise<Track> {
     const track = await this.trackRepository.findOneOrFail({ where: { id } });
 
     return await this.trackRepository.save(patch(track, input));
   }
 
-  async remove(id: string): Promise<Track> {
+  async remove(id: number): Promise<Track> {
     const season = await this.trackRepository.findOne({ where: { id } });
 
     if (!season) {
@@ -56,14 +56,14 @@ export class TrackService {
     });
   }
 
-  async randomizeTracksForSeason({
-    game,
-    numberOfRaces,
-  }: Partial<CreateSeasonInput>): Promise<Track[]> {
-    return await createQueryBuilder(Track, 'track')
-      .where('track.game = :game', { game })
-      .limit(numberOfRaces)
-      .orderBy('RANDOM()')
-      .getMany();
-  }
+  // async randomizeTracksForSeason({
+  //   game,
+  //   numberOfRaces,
+  // }: Partial<CreateSeasonInput>): Promise<Track[]> {
+  //   return await createQueryBuilder(Track, 'track')
+  //     .where('track.game = :game', { game })
+  //     .limit(numberOfRaces)
+  //     .orderBy('RANDOM()')
+  //     .getMany();
+  // }
 }

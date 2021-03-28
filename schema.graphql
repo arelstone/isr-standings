@@ -61,6 +61,14 @@ type Season {
   races: [Race!]!
 }
 
+type CreateSeasonPayload {
+  id: String!
+  name: String!
+  game: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
 type Calendar {
   id: ID!
 
@@ -79,28 +87,28 @@ type Calendar {
 
 type Query {
   seasons(game: String): [Season!]!
-  season(id: String!): Season!
+  season(id: Float!): Season!
   tracks(game: String!): [Track!]!
   calendar: [Calendar!]!
 }
 
 type Mutation {
-  createSeason(input: CreateSeasonInput!): Season!
-  updateSeason(input: UpdateSeasonInput!, id: String!): Season!
-  deleteSeason(id: String!): Season!
+  createSeason(input: CreateSeasonInput!): CreateSeasonPayload!
+  updateSeason(input: UpdateSeasonInput!, id: Float!): Season!
+  deleteSeason(id: Float!): Season!
   createTrack(input: CreateTrackInput!): Track!
-  deleteTrack(id: String!): Track!
-  updateTrack(input: UpdateTrackInput!, id: String!): Track!
+  deleteTrack(id: Float!): Track!
+  updateTrack(input: UpdateTrackInput!, id: Float!): Track!
   createRace(input: CreateRaceInput!): Race!
   updateRace(input: UpdateRaceInput!): Race!
-  createResults(input: CreateResultInput!, raceId: String!): Race!
+  createResult(input: CreateResultInput!, raceId: Float!): Race!
+  updateResult(input: UpdateResultInput!, id: Float!): Race!
   createCalendar(input: CreateCalendarInput!): [Calendar!]!
 }
 
 input CreateSeasonInput {
   name: String!
   description: String!
-  numberOfRaces: Float!
   game: String!
 }
 
@@ -127,11 +135,11 @@ input UpdateTrackInput {
 
 input CreateRaceInput {
   description: String!
-  startingAt: DateTime = "2021-03-27T17:44:17.680Z"
+  startingAt: DateTime!
   raceDuration: Float!
   qualifyingDuration: Float!
-  seasonId: String!
-  trackId: String!
+  seasonId: Float!
+  trackId: Float!
   carCatrgory: String = "gt3"
 }
 
@@ -149,6 +157,15 @@ input CreateResultInput {
   points: Float!
   polePosition: Boolean = false
   fastestLap: Boolean = false
+  bestTime: String
+  totalTime: String
+}
+
+input UpdateResultInput {
+  player: String
+  points: Float
+  polePosition: Boolean
+  fastestLap: Boolean
   bestTime: String
   totalTime: String
 }

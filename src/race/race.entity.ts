@@ -17,7 +17,7 @@ import {
 @Entity()
 @ObjectType()
 export class Race {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn()
   @Field(() => ID)
   id!: string;
 
@@ -53,11 +53,11 @@ export class Race {
   @DeleteDateColumn()
   deletedAt?: Date;
 
-  @ManyToOne(() => Track, (track) => track.races)
-  track: Promise<Track>;
+  @ManyToOne(() => Track, (track) => track.races, { eager: true })
+  track: Track;
 
   @ManyToOne(() => Season, (season) => season.races)
-  season: Promise<Season>;
+  season: Season;
 
   @OneToMany(() => Result, (result) => result.race)
   results!: Promise<Result[]>;

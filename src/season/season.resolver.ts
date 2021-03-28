@@ -10,6 +10,7 @@ import { GameEnum } from 'src/enums/GameEnum';
 import { Race } from 'src/race/race.entity';
 import { RaceService } from 'src/race/race.service';
 import { CreateSeasonInput } from './create-season.input';
+import { CreateSeasonPayload } from './create-season.payload';
 import { Season } from './season.entity';
 import { SeasonService } from './season.service';
 import { UpdateSeasonInput } from './update-season.input';
@@ -29,18 +30,20 @@ export class SeasonResolver {
   }
 
   @Query(() => Season)
-  async season(@Args('id') id: string): Promise<Season> {
+  async season(@Args('id') id: number): Promise<Season> {
     return this.seasonService.find(id);
   }
 
-  @Mutation(() => Season)
-  async createSeason(@Args('input') input: CreateSeasonInput): Promise<Season> {
-    return await this.seasonService.create(input);
+  @Mutation(() => CreateSeasonPayload)
+  async createSeason(
+    @Args('input') input: CreateSeasonInput,
+  ): Promise<CreateSeasonPayload> {
+    return (await this.seasonService.create(input)) as CreateSeasonPayload;
   }
 
   @Mutation(() => Season)
   async updateSeason(
-    @Args('id') id: string,
+    @Args('id') id: number,
     @Args('input') input: UpdateSeasonInput,
   ): Promise<Season> {
     const season = await this.seasonService.find(id);
@@ -48,12 +51,12 @@ export class SeasonResolver {
   }
 
   @Mutation(() => Season)
-  async deleteSeason(@Args('id') id: string): Promise<string> {
+  async deleteSeason(@Args('id') id: number): Promise<string> {
     return await this.seasonService.remove(id);
   }
 
   @ResolveField('races', () => [Race])
   async races(@Parent() season: Season) {
-    return this.raceService.findBySeason(season);
+    return await this.raceService.findBySeason(season);
   }
 }
