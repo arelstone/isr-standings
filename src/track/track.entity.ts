@@ -16,7 +16,7 @@ import {
 export class Track {
   @PrimaryGeneratedColumn()
   @Field(() => ID)
-  id!: string;
+  id!: number;
 
   @Column()
   @Field()

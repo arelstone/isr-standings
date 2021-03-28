@@ -4,7 +4,7 @@ import { GameEnum } from 'src/enums/GameEnum';
 @ObjectType()
 export class CreateSeasonPayload {
   @Field()
-  id!: string;
+  id!: number;
 
   @Field()
   name!: string;

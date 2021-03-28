@@ -19,7 +19,7 @@ import {
 export class Race {
   @PrimaryGeneratedColumn()
   @Field(() => ID)
-  id!: string;
+  id!: number;
 
   @Column({ nullable: true })
   @Field({ nullable: true })

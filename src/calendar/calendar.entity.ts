@@ -14,7 +14,7 @@ import {
 export class Calendar {
   @PrimaryGeneratedColumn()
   @Field(() => ID)
-  id!: string;
+  id!: number;
 
   @Column('integer')
   @Field({ description: 'Starting at Monday' })

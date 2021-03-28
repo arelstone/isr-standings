@@ -9,7 +9,6 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   UpdateDateColumn,
-  JoinTable,
 } from 'typeorm';
 
 @Entity()
@@ -18,7 +17,7 @@ import {
 export class Result {
   @PrimaryGeneratedColumn()
   @Field(() => ID)
-  id!: string;
+  id!: number;
 
   @Column()
   @Field()

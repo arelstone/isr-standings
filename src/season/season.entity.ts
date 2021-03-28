@@ -16,7 +16,7 @@ import {
 export class Season {
   @PrimaryGeneratedColumn()
   @Field(() => ID)
-  id!: string;
+  id!: number;
 
   @Column({ unique: true })
   @Field()

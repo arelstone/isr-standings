@@ -62,7 +62,7 @@ type Season {
 }
 
 type CreateSeasonPayload {
-  id: String!
+  id: Float!
   name: String!
   game: String!
   createdAt: DateTime!
