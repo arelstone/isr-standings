@@ -1,3 +1,4 @@
+import { UseGuards } from '@nestjs/common';
 import {
   Args,
   Mutation,
@@ -9,6 +10,7 @@ import {
 import { GameEnum } from 'src/enums/GameEnum';
 import { Race } from 'src/race/race.entity';
 import { RaceService } from 'src/race/race.service';
+import { AuthGuard } from 'src/shared/guards/auth.guard';
 import { CreateSeasonInput } from './create-season.input';
 import { CreateSeasonPayload } from './create-season.payload';
 import { Season } from './season.entity';
@@ -35,13 +37,15 @@ export class SeasonResolver {
   }
 
   @Mutation(() => CreateSeasonPayload)
+  @UseGuards(AuthGuard)
   async createSeason(
     @Args('input') input: CreateSeasonInput,
   ): Promise<CreateSeasonPayload> {
-    return (await this.seasonService.create(input)) as CreateSeasonPayload;
+    return await this.seasonService.create(input);
   }
 
   @Mutation(() => Season)
+  @UseGuards(AuthGuard)
   async updateSeason(
     @Args('id') id: number,
     @Args('input') input: UpdateSeasonInput,
@@ -51,6 +55,7 @@ export class SeasonResolver {
   }
 
   @Mutation(() => Season)
+  @UseGuards(AuthGuard)
   async deleteSeason(@Args('id') id: number): Promise<string> {
     return await this.seasonService.remove(id);
   }

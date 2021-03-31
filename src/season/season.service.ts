@@ -10,7 +10,6 @@ import { Season } from './season.entity';
 import { UpdateSeasonInput } from './update-season.input';
 
 type SeasonRepository = Repository<Season>;
-
 @Injectable()
 export class SeasonService {
   constructor(

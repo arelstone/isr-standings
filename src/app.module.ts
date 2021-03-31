@@ -8,6 +8,8 @@ import { TrackModule } from './track/track.module';
 import { RaceModule } from './race/race.module';
 import { ResultModule } from './result/result.module';
 import { CalendarModule } from './calendar/calendar.module';
+import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -30,6 +32,8 @@ import { CalendarModule } from './calendar/calendar.module';
     RaceModule,
     ResultModule,
     CalendarModule,
+    UserModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

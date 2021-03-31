@@ -51,6 +51,11 @@ type Race {
   results: [Result!]!
 }
 
+type User {
+  id: Float!
+  email: String!
+}
+
 type Season {
   id: ID!
   name: String!
@@ -85,11 +90,23 @@ type Calendar {
   day: String!
 }
 
+type JwtPayload {
+  token: String!
+  user: User!
+}
+
 type Query {
   seasons(game: String): [Season!]!
   season(id: Float!): Season!
   tracks(game: String!): [Track!]!
   calendar: [Calendar!]!
+  me: User!
+  login(input: LoginInput!): JwtPayload!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
 }
 
 type Mutation {
@@ -104,6 +121,7 @@ type Mutation {
   createResult(input: CreateResultInput!, raceId: Float!): Race!
   updateResult(input: UpdateResultInput!, id: Float!): Race!
   createCalendar(input: CreateCalendarInput!): [Calendar!]!
+  signup(input: SignupInput!): JwtPayload!
 }
 
 input CreateSeasonInput {
@@ -176,4 +194,9 @@ input CreateCalendarInput {
   time: String!
   timezone: String!
   game: String = "gts"
+}
+
+input SignupInput {
+  email: String!
+  password: String!
 }
