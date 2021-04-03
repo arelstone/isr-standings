@@ -1,7 +1,7 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { GameEnum } from 'src/enums/GameEnum';
-import { Race } from 'src/race/race.entity';
-import { User } from 'src/user/user.entity';
+import { GameEnum } from '../enums/GameEnum';
+import { Race } from '../race/race.entity';
+import { User } from '../user/user.entity';
 import {
   Column,
   CreateDateColumn,
@@ -20,7 +20,7 @@ export class Season {
   @Field(() => ID)
   id!: number;
 
-  @Column({ unique: true })
+  @Column()
   @Field()
   name!: string;
 
@@ -40,6 +40,17 @@ export class Season {
   @DeleteDateColumn()
   deletedAt?: Date;
 
-  @OneToMany(() => Race, (race) => race.season, { eager: true })
+  @OneToMany(() => Race, (race) => race.season, {
+    lazy: true,
+    onDelete: 'CASCADE',
+  })
+  @Field(() => [Race])
   races: Race[];
+
+  @ManyToOne(() => User, (user) => user.hosting, {
+    lazy: true,
+    onDelete: 'CASCADE',
+  })
+  @Field(() => User)
+  host!: User;
 }

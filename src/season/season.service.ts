@@ -1,13 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { GameEnum } from 'src/enums/GameEnum';
-import { RaceService } from 'src/race/race.service';
-import { TrackService } from 'src/track/track.service';
-import { patch } from 'src/utils/databaseUtils';
+import { GameEnum } from '../enums/GameEnum';
+import { RaceService } from '../race/race.service';
+import { TrackService } from '../track/track.service';
+import { patch } from '../shared/utils/database.utils';
 import { Repository } from 'typeorm';
-import { CreateSeasonInput } from './create-season.input';
 import { Season } from './season.entity';
 import { UpdateSeasonInput } from './update-season.input';
+import { CreateSeasonDto } from './create-season.dto';
 
 type SeasonRepository = Repository<Season>;
 @Injectable()
@@ -41,14 +41,8 @@ export class SeasonService {
     return season;
   }
 
-  // TODO: Finish this
-  async create(input: CreateSeasonInput): Promise<Season> {
+  async create(input: CreateSeasonDto): Promise<Season> {
     return await this.seasonRepository.save(input);
-    // const tracks = await this.trackService.randomizeTracksForSeason(input);
-    // const races = tracks.map(
-    //   async (track) => await this.raceService.create({ track, season }),
-    // );
-    // return season;
   }
 
   async update(season: Season, input: UpdateSeasonInput): Promise<Season> {

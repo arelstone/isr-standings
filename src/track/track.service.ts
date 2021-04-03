@@ -1,9 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { GameEnum } from 'src/enums/GameEnum';
-import { CreateSeasonInput } from 'src/season/create-season.input';
-import { patch } from 'src/utils/databaseUtils';
-import { createQueryBuilder, Repository } from 'typeorm';
+import { GameEnum } from '../enums/GameEnum';
+import { patch } from '../shared/utils/database.utils';
+import { Repository } from 'typeorm';
 import { CreateTrackInput } from './create-track.input';
 import { Track } from './track.entity';
 import { UpdateTrackInput } from './update-track.input';

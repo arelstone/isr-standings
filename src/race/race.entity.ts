@@ -1,8 +1,8 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { CarCategoryEnum } from 'src/enums/CarCategoryEnum';
-import { Result } from 'src/result/result.entity';
-import { Season } from 'src/season/season.entity';
-import { Track } from 'src/track/track.entity';
+import { CarCategoryEnum } from '../enums/CarCategoryEnum';
+import { Result } from '../result/result.entity';
+import { Season } from '../season/season.entity';
+import { Track } from '../track/track.entity';
 import {
   Entity,
   ManyToOne,
@@ -53,12 +53,18 @@ export class Race {
   @DeleteDateColumn()
   deletedAt?: Date;
 
-  @ManyToOne(() => Track, (track) => track.races, { eager: true })
+  @ManyToOne(() => Track, (track) => track.races, { lazy: true })
+  @Field(() => Track)
   track: Track;
 
-  @ManyToOne(() => Season, (season) => season.races)
+  @ManyToOne(() => Season, (season) => season.races, { lazy: true })
+  @Field(() => Season)
   season: Season;
 
-  @OneToMany(() => Result, (result) => result.race)
+  @OneToMany(() => Result, (result) => result.race, {
+    onDelete: 'CASCADE',
+    lazy: true,
+  })
+  @Field(() => [Result])
   results!: Promise<Result[]>;
 }

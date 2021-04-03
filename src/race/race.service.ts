@@ -1,11 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Season } from 'src/season/season.entity';
-import { Track } from 'src/track/track.entity';
-import { patch } from 'src/utils/databaseUtils';
+import { Season } from '../season/season.entity';
+import { Track } from '../track/track.entity';
+import { patch } from '../shared/utils/database.utils';
 import { Repository } from 'typeorm';
 import { CreateRaceInput } from './create-race.input';
-import { CreateRaceDto } from './dto/create-race.dto';
 import { Race } from './race.entity';
 import { UpdateRaceInput } from './update-race.input';
 
@@ -27,10 +26,7 @@ export class RaceService {
   }
 
   async findBySeason(season: Season): Promise<Race[]> {
-    const res = await this.raceRepository.find({ where: { season } });
-
-    console.log('###findBySeason', res);
-    return res;
+    return await this.raceRepository.find({ where: { season } });
   }
 
   async create(

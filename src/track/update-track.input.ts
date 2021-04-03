@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { GameEnum } from 'src/enums/GameEnum';
+import { GameEnum } from '../enums/GameEnum';
 
 @InputType()
 export class UpdateTrackInput {

@@ -3,7 +3,7 @@ import { ResultService } from './result.service';
 import { ResultResolver } from './result.resolver';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Result } from './result.entity';
-import { RaceModule } from 'src/race/race.module';
+import { RaceModule } from '../race/race.module';
 
 @Module({
   providers: [ResultService, ResultResolver],

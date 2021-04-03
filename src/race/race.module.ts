@@ -3,9 +3,9 @@ import { RaceService } from './race.service';
 import { RaceResolver } from './race.resolver';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Race } from './race.entity';
-import { SeasonModule } from 'src/season/season.module';
-import { TrackModule } from 'src/track/track.module';
-import { ResultModule } from 'src/result/result.module';
+import { SeasonModule } from '../season/season.module';
+import { TrackModule } from '../track/track.module';
+import { ResultModule } from '../result/result.module';
 
 @Module({
   providers: [RaceService, RaceResolver],

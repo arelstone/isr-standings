@@ -1,5 +1,5 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { Race } from 'src/race/race.entity';
+import { Race } from '../race/race.entity';
 import {
   Entity,
   ManyToOne,
@@ -27,8 +27,8 @@ export class Result {
   @Field()
   points!: number;
 
-  // @Column({ name: 'raceId' })
-  @ManyToOne(() => Race, (race) => race.results, { cascade: true })
+  @ManyToOne(() => Race, (race) => race.results, { cascade: true, lazy: true })
+  @Field(() => Race)
   race!: Race;
 
   @Column('boolean', { default: false })

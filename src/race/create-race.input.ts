@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { CarCategoryEnum } from 'src/enums/CarCategoryEnum';
+import { CarCategoryEnum } from '../enums/CarCategoryEnum';
 
 @InputType()
 export class CreateRaceInput {

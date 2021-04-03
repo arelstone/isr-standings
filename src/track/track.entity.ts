@@ -1,6 +1,6 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { GameEnum } from 'src/enums/GameEnum';
-import { Race } from 'src/race/race.entity';
+import { GameEnum } from '../enums/GameEnum';
+import { Race } from '../race/race.entity';
 import {
   Column,
   CreateDateColumn,
@@ -50,6 +50,6 @@ export class Track {
   @DeleteDateColumn()
   deletedAt?: Date;
 
-  @OneToMany(() => Race, (race) => race.track)
+  @OneToMany(() => Race, (race) => race.track, { lazy: true })
   races: Promise<Race[]>;
 }

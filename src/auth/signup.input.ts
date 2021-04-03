@@ -7,4 +7,10 @@ export class SignupInput {
 
   @Field()
   password!: string;
+
+  @Field()
+  psnHandle!: string;
+
+  @Field({ nullable: true })
+  name?: string;
 }

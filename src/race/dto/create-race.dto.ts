@@ -1,5 +1,5 @@
-import { Season } from 'src/season/season.entity';
-import { Track } from 'src/track/track.entity';
+import { Season } from '../../season/season.entity';
+import { Track } from '../../track/track.entity';
 import { CreateRaceInput } from '../create-race.input';
 
 export class CreateRaceDto extends CreateRaceInput {

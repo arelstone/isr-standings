@@ -1,10 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateRaceInput } from 'src/race/create-race.input';
-import { Race } from 'src/race/race.entity';
-import { RaceService } from 'src/race/race.service';
-import { patch } from 'src/utils/databaseUtils';
-import { Connection, Repository } from 'typeorm';
+import { Race } from '../race/race.entity';
+import { patch } from '../shared/utils/database.utils';
+import { Repository } from 'typeorm';
 import { CreateResultInput } from './create-result.input';
 import { Result } from './result.entity';
 import { UpdateResultInput } from './update-result.input';

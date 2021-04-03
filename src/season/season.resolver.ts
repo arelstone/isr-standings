@@ -1,28 +1,17 @@
-import { UseGuards } from '@nestjs/common';
-import {
-  Args,
-  Mutation,
-  Parent,
-  Query,
-  ResolveField,
-  Resolver,
-} from '@nestjs/graphql';
-import { GameEnum } from 'src/enums/GameEnum';
-import { Race } from 'src/race/race.entity';
-import { RaceService } from 'src/race/race.service';
-import { AuthGuard } from 'src/shared/guards/auth.guard';
+import { UnprocessableEntityException, UseGuards } from '@nestjs/common';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { GameEnum } from '../enums/GameEnum';
+import { CurrentUser } from '../shared/decorators/current-user.decorator';
+import { AuthGuard } from '../shared/guards/auth.guard';
+import { User } from '../user/user.entity';
 import { CreateSeasonInput } from './create-season.input';
-import { CreateSeasonPayload } from './create-season.payload';
 import { Season } from './season.entity';
 import { SeasonService } from './season.service';
 import { UpdateSeasonInput } from './update-season.input';
 
 @Resolver(Season)
 export class SeasonResolver {
-  constructor(
-    private readonly seasonService: SeasonService,
-    private readonly raceService: RaceService,
-  ) {}
+  constructor(private readonly seasonService: SeasonService) {}
 
   @Query(() => [Season])
   async seasons(
@@ -36,12 +25,13 @@ export class SeasonResolver {
     return this.seasonService.find(id);
   }
 
-  @Mutation(() => CreateSeasonPayload)
+  @Mutation(() => Season)
   @UseGuards(AuthGuard)
   async createSeason(
     @Args('input') input: CreateSeasonInput,
-  ): Promise<CreateSeasonPayload> {
-    return await this.seasonService.create(input);
+    @CurrentUser() user: User,
+  ): Promise<Season> {
+    return await this.seasonService.create({ ...input, host: user });
   }
 
   @Mutation(() => Season)
@@ -49,19 +39,28 @@ export class SeasonResolver {
   async updateSeason(
     @Args('id') id: number,
     @Args('input') input: UpdateSeasonInput,
+    @CurrentUser() user: User,
   ): Promise<Season> {
     const season = await this.seasonService.find(id);
+
+    if (season.host.id !== user.id) {
+      throw new UnprocessableEntityException('You did not create the season');
+    }
+
     return await this.seasonService.update(season, input);
   }
 
   @Mutation(() => Season)
   @UseGuards(AuthGuard)
-  async deleteSeason(@Args('id') id: number): Promise<string> {
-    return await this.seasonService.remove(id);
-  }
+  async deleteSeason(
+    @Args('id') id: number,
+    @CurrentUser() user: User,
+  ): Promise<string> {
+    const season = await this.seasonService.find(id);
 
-  @ResolveField('races', () => [Race])
-  async races(@Parent() season: Season) {
-    return await this.raceService.findBySeason(season);
+    if (season.host.id !== user.id) {
+      throw new UnprocessableEntityException('You did not create the season');
+    }
+    return await this.seasonService.remove(id);
   }
 }

@@ -3,7 +3,7 @@ import { Track } from './track.entity';
 import { TrackService } from './track.service';
 import { CreateTrackInput } from './create-track.input';
 import { UpdateTrackInput } from './update-track.input';
-import { GameEnum } from 'src/enums/GameEnum';
+import { GameEnum } from '../enums/GameEnum';
 
 @Resolver(Track)
 export class TrackResolver {
