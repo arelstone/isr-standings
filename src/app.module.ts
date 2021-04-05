@@ -24,7 +24,7 @@ import { AuthModule } from './auth/auth.module';
       synchronize: true,
       autoLoadEntities: true,
       // logger: 'advanced-console',
-      logging: ['query', 'schema'],
+      // logging: ['query', 'schema'],
     }),
     GraphQLModule.forRoot({
       autoSchemaFile: 'schema.graphql',
